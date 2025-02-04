@@ -13,7 +13,7 @@ public class OrderProcessor : ControllerBase
     }
 
     [HttpPost("process-order")] // This path is intentionally wrong
-    [Topic("orderpubsub", "orders")]
+    [Topic("order-pubsub", "order")]
     public async Task<IActionResult> ProcessOrder(Order order)
     {
         try

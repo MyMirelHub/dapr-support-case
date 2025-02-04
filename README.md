@@ -2,7 +2,7 @@
 
 Hi Support team,
 
-We've been trying to get our order processing system working with Dapr pub/sub, but we're running into issues. The messages aren't getting through to our processing service, and we can't figure out why. We've spent the last two days trying to debug this.
+We've been trying to get our order processing system working with Dapr pub/sub, but we're running into issues. The messages aren't getting through to our processing service, and we can't figure out why. We've spent the last two days trying to debug this. Things have became worse after we moved the Redis configuration to a local secret store. Now the apps won't even start :(
 
 ## Our Setup
 
@@ -26,20 +26,19 @@ We're using Dapr's pub/sub building block with Redis (the default one that comes
 First service (Publisher):
 
 ```bash
-cd src/Publisher
-dapr run --app-id publisher --app-port 5000 --dapr-http-port 3500 --resources-path ../../components/ -- dotnet run
+dapr run --app-id publisher --app-port 6500 --dapr-http-port 3500 --resources-path ../../components/ -- dotnet run
 ```
 
 Second service (Subscriber):
 
 ```bash
 cd src/Subscriber
-dapr run --app-id subscriber --app-port 5001 --dapr-http-port 3501 --resources-path ../../components/ -- dotnet run
+dapr run --app-id subscriber --app-port 6501 --dapr-http-port 3501 --resources-path ../../components/ -- dotnet run
 ```
 
-## What's Happening
+## What was Happening when the apps were running
 
-1. When we submit an order through the API (http://localhost:5000/order), the Publisher service accepts it and returns a success message
+1. When we submit an order through the API (http://localhost:6500/order), the Publisher service accepts it and returns a success message
 2. The order details look correct in the Publisher's logs
 3. But the Subscriber service never receives or processes the order
 4. We've verified both services are running and healthy
@@ -49,7 +48,7 @@ dapr run --app-id subscriber --app-port 5001 --dapr-http-port 3501 --resources-p
 This is how we test it:
 
 ```bash
-curl -X POST http://localhost:5000/order -H "Content-Type: application/json" -d '{
+curl -X POST http://localhost:6500/order -H "Content-Type: application/json" -d '{
     "items": [
         {
             "productId": "PROD-1",
@@ -61,11 +60,10 @@ curl -X POST http://localhost:5000/order -H "Content-Type: application/json" -d 
 
 ## What We've Tried
 
-1. We can see in the logs that the Publisher service is receiving the orders
-2. The services fail to initialize but we don't know why!
+1. The services fail to initialize but we don't know why!
+2. Before, we could see in the logs that the Publisher service was receiving the orders
 3. We've checked that Redis is running (using the default Dapr Redis)
-4. We're using the local secret store for Redis configuration
-5. The subscriber has the proper Topic attribute on the endpoint
+4. We're now using the local secret store for Redis configuration
 
 Could you please help us figure out what's wrong? This is blocking our development team from moving forward.
 
@@ -74,6 +72,5 @@ Could you please help us figure out what's wrong? This is blocking our developme
 - We're using .NET 8.0
 - Dapr version: 1.14.4
 - All components are deployed locally for development
-- The API swagger is available at http://localhost:5000/swagger
 
 Thank you for your help!
