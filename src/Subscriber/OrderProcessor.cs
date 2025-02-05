@@ -12,7 +12,7 @@ public class OrderProcessor : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("process-order")] // This path is intentionally wrong
+    [HttpPost("process-order")]
     [Topic("order-pubsub", "order")]
     public async Task<IActionResult> ProcessOrder(Order order)
     {
