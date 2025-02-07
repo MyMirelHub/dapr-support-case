@@ -2,7 +2,7 @@
 
 Hi Support team,
 
-We've been trying to get our order processing system working with the Dapr pub/sub API, but we're running into issues. The messages aren't getting through to our processing service, and we can't figure out why. We've spent the last two days trying to debug this. Things have became worse after we moved the Redis host configuration to a local secret store. Now the apps won't even start :(
+We've been trying to get our order processing system working with the Dapr pub/sub API, but we're running into issues. The messages aren't getting through to our processing service, and we can't figure out why. We've spent the last two days trying to debug this. Things have become worse after we moved the Redis host configuration to a local secret store. Now the apps won't even start :(
 
 ## Our Setup
 
