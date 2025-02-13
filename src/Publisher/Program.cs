@@ -3,8 +3,7 @@ using Dapr;
 using Dapr.Client;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers().AddDapr();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers().AddDapr(); 
 
 var app = builder.Build();
 

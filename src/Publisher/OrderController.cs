@@ -8,7 +8,7 @@ public class OrderController : ControllerBase
     private readonly ILogger<OrderController> _logger;
     private readonly DaprClient _daprClient;
     private const string PUBSUB_NAME = "orderpubsub";
-    private const string TOPIC_NAME = "orders";
+    private const string TOPIC_NAME = "order";
 
     public OrderController(ILogger<OrderController> logger, DaprClient daprClient)
     {
